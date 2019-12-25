@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                    <h1>{{ \Carbon\Carbon::now() }}</h1>
                 </div>
             </div>
         </div>
