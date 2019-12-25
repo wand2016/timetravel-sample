@@ -6,6 +6,7 @@ describe('E2E testing', () => {
 
     beforeEach(async () => {
         browser = await puppeteer.launch({
+            slowMo: 30,
             headless: !!process.env.CI,
             args: [
                 '--no-sandbox',
@@ -20,8 +21,22 @@ describe('E2E testing', () => {
         await browser.close();
     });
 
-    test('empty', async () => {
-        await page.goto('https://example.com');
-        expect(1).toBe(1);
+    test('ログインしてHome画面に遷移し、timetravelパラメータを指定すると指定の日時が表示される', async () => {
+        await page.goto('http://localhost:10080/login', { waitUntil: "domcontentloaded", timeout: 3000 });
+
+        await page.type('input[name=email]', 'sample@example.com');
+        await page.type('input[name=password]', 'password');
+        await Promise.all([
+            page.click('[type=submit]'),
+            page.waitForNavigation({ waitUntil: "domcontentloaded", timeout: 3000 })
+        ]);
+
+        // then, set timetraveler parameter
+        await page.goto(
+            'http://localhost:10080/home?timetravel=20191224',
+            { waitUntil: "domcontentloaded", timeout: 3000 }
+        );
+
+        expect(await page.content()).toContain('2019-12-24');
     });
 });

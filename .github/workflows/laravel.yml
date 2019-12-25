@@ -26,4 +26,12 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: composer run ci
     - name: e2e-CI
-      run: npm run e2e:ci
+      env:
+        DB_HOST: localhost
+        DB_USERNAME: root
+        DB_PASSWORD: root
+      run: |
+        mysql --host=localhost -uroot -proot -e "CREATE DATABASE \`default\` ;"
+        php artisan migrate --seed
+        php artisan serve --port=10080 &
+        npm run e2e:ci
