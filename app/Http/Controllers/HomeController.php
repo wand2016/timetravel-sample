@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Utils\TimeTravelerInterface;
+use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -18,11 +19,16 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @param Request $request
+     * @param TimeTravelerInterface $timeTraveler
+     * @return View
      */
-    public function index()
+    public function index(
+        Request $request,
+        TimeTravelerInterface $timeTraveler
+    ): View
     {
+        $timeTraveler->travel(Carbon::parse($request->get('timetravel', '')));
         return view('home');
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Utils\TimeTraveler;
+use App\Utils\TimeTravelerInterface;
+use App\Utils\TimeTravelerNull;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +16,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ((env('APP_ENV') === 'local' || env('APP_ENV') === 'testing')
+            && env('APP_DEBUG')
+        ) {
+            $this->app->singleton(TimeTravelerInterface::class, TimeTraveler::class);
+        } else {
+            $this->app->singleton(TimeTravelerInterface::class, TimeTravelerNull::class);
+        }
     }
 
     /**
