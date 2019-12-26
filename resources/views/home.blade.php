@@ -16,6 +16,13 @@
 
                     You are logged in!
                     <h1>{{ \Carbon\Carbon::now() }}</h1>
+                    {!! Form::open([
+                        'route' => 'home',
+                        'method' => 'post',
+                        ]) !!}
+                    {!! Form::hidden('timetravel', request()->get('timetravel')) !!}
+                    {!! Form::submit('submit') !!}
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

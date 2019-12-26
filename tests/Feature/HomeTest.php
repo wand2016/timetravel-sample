@@ -41,7 +41,6 @@ class HomeTest extends TestCase
         // 1. setup
         // ----------------------------------------
         $this->be(User::first());
-
         Carbon::setTestNow($now);
 
         // ----------------------------------------
@@ -69,8 +68,8 @@ class HomeTest extends TestCase
         // ----------------------------------------
         // 1. setup
         // ----------------------------------------
-        Carbon::setTestNow($now);
         $this->be(User::first());
+        Carbon::setTestNow($now);
 
         // ----------------------------------------
         // 2. action
@@ -110,7 +109,7 @@ class HomeTest extends TestCase
         // 1. setup
         // ----------------------------------------
         $this->be(User::first());
-
+        $this->followingRedirects();
         Carbon::setTestNow($now);
 
         // ----------------------------------------
@@ -138,8 +137,9 @@ class HomeTest extends TestCase
         // ----------------------------------------
         // 1. setup
         // ----------------------------------------
-        Carbon::setTestNow($now);
         $this->be(User::first());
+        $this->followingRedirects();
+        Carbon::setTestNow($now);
 
         // ----------------------------------------
         // 2. action

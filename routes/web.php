@@ -22,4 +22,5 @@ $router->get('/', function () {
 
 $router->auth();
 
-$router->match(['get', 'post'], '/home', 'HomeController@index')->name('home');
+$router->get('/home', 'HomeController@index')->middleware(['auth'])->name('home');
+$router->post('/home', 'HomeController@post')->middleware(['auth'])->name('post');
