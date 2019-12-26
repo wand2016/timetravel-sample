@@ -15,6 +15,9 @@
                     @endif
 
                     You are logged in!
+                    @if(session('posted', false))
+                      posted
+                    @endif
                     <h1>{{ \Carbon\Carbon::now() }}</h1>
                     {!! Form::open([
                         'route' => 'home',

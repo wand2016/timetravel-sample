@@ -44,7 +44,9 @@ class HomeController extends Controller
     ): RedirectResponse
     {
         $timeTraveler->travel(Carbon::parse($request->get('timetravel', '')));
-        return redirect()->route('home', ['timetravel' => $request->get('timetravel', '')]);
+        return redirect()
+            ->route('home', ['timetravel' => $request->get('timetravel', '')])
+            ->with('posted', true);
     }
 
 }
