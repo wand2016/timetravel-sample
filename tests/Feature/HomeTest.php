@@ -22,7 +22,7 @@ class HomeTest extends TestCase
     /**
      * @test
      */
-    public function 未ログイン状態でhome画面にアクセスするとログイン画面にリダイレクトされる()
+    public function home_GET_未ログイン状態でアクセスするとログイン画面にリダイレクトされる()
     {
         $response = $this->get('/home');
 
@@ -33,7 +33,7 @@ class HomeTest extends TestCase
      * @test
      * @dataProvider dataProvider_現在時刻と表示
      */
-    public function home画面で現在時刻が表示される(
+    public function home_GET_現在時刻が表示される(
         Carbon $now,
         string $messageExpected
     ) {
@@ -61,7 +61,7 @@ class HomeTest extends TestCase
      * @test
      * @dataProvider dataProvider_timetravelパラメータと表示
      */
-    public function timetravelパラメータが指定されているとその日時が表示される(
+    public function home_GET_timetravelパラメータが指定されているとその日時が表示される(
         Carbon $now,
         string $timetravel,
         string $messageExpected
@@ -76,6 +76,75 @@ class HomeTest extends TestCase
         // 2. action
         // ----------------------------------------
         $response = $this->call('get', '/home', [
+            'timetravel' => $timetravel,
+        ]);
+
+        // ----------------------------------------
+        // 3. assertion
+        // -----------------------------------------
+        $response->assertSeeText(
+            $messageExpected
+        );
+    }
+
+
+    /**
+     * @test
+     */
+    public function home_POST_未ログイン状態でアクセスするとログイン画面にリダイレクトされる()
+    {
+        $response = $this->post('/home');
+
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProvider_現在時刻と表示
+     */
+    public function home_POST_現在時刻が表示される(
+        Carbon $now,
+        string $messageExpected
+    ) {
+        // ----------------------------------------
+        // 1. setup
+        // ----------------------------------------
+        $this->be(User::first());
+
+        Carbon::setTestNow($now);
+
+        // ----------------------------------------
+        // 2. action
+        // ----------------------------------------
+        $response = $this->post('/home');
+
+        // ----------------------------------------
+        // 3. assertion
+        // -----------------------------------------
+        $response->assertSeeText(
+            $messageExpected
+        );
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProvider_timetravelパラメータと表示
+     */
+    public function home_POST_timetravelパラメータが指定されているとその日時が表示される(
+        Carbon $now,
+        string $timetravel,
+        string $messageExpected
+    ) {
+        // ----------------------------------------
+        // 1. setup
+        // ----------------------------------------
+        Carbon::setTestNow($now);
+        $this->be(User::first());
+
+        // ----------------------------------------
+        // 2. action
+        // ----------------------------------------
+        $response = $this->call('post', '/home', [
             'timetravel' => $timetravel,
         ]);
 

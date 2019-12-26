@@ -22,4 +22,4 @@ $router->get('/', function () {
 
 $router->auth();
 
-$router->get('/home', 'HomeController@index')->name('home');
+$router->match(['get', 'post'], '/home', 'HomeController@index')->name('home');
