@@ -21,6 +21,16 @@ class HomeTest extends TestCase
 
     /**
      * @test
+     */
+    public function 未ログイン状態でhome画面にアクセスするとログイン画面にリダイレクトされる()
+    {
+        $response = $this->get('/home');
+
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * @test
      * @dataProvider dataProvider_現在時刻と表示
      */
     public function home画面で現在時刻が表示される(

@@ -1,5 +1,9 @@
 <?php
 
+use Illuminate\Routing\Router;
+
+/** @var Router $router */
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,10 +15,11 @@
 |
 */
 
-Route::get('/', function () {
+
+$router->get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+$router->auth();
 
-Route::get('/home', 'HomeController@index')->name('home');
+$router->get('/home', 'HomeController@index')->name('home');
